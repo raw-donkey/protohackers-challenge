@@ -29,14 +29,21 @@ The implementation can be broken down into a simple loop:
 
 **Key Code Logic (Conceptual):**
 
-```python
-while True:
-    data = await reader.read(1024) # Read up to 1024 bytes
-    if not data: # EOF reached
-        break
-    writer.write(data) # Echo data back
-    await writer.drain()
+```go
+listen, err := net.Listen("tcp", ":8080")
+if err != nil {
+    return
+}
+defer listen.Close()
 
+for {
+    conn, err := listen.Accept()
+    if err != nil {
+        continue
+    }
+
+    go handle(conn)
+}
 ```
 
 ### **Lessons Learned**

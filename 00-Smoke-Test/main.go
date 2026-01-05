@@ -7,17 +7,17 @@ import (
 )
 
 func main() {
-	listen, err := net.Listen("tcp", ":8080")
+	listener, err := net.Listen("tcp", ":8080")
 	if err != nil {
 		slog.Info("failed to listen target address", "error", err.Error())
 		return
 	}
-	defer listen.Close()
+	defer listener.Close()
 
 	slog.Info("server started", "address", ":8080")
 
 	for {
-		conn, err := listen.Accept()
+		conn, err := listener.Accept()
 		if err != nil {
 			slog.Error("failed to accept connection", "error", err.Error())
 			continue
